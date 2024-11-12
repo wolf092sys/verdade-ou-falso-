@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Verdadeiro ou Falso</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-true {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        .btn-false {
+            background-color: #f44336;
+            color: #fff;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #restart {
+            display: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <div id="question" class="question">Carregando pergunta...</div>
+    <button class="btn btn-true" onclick="answer(true)">Verdadeiro</button>
+    <button class="btn btn-false" onclick="answer(false)">Falso</button>
+    <div id="result"></div>
+    <button id="restart" onclick="restartQuiz()">Reiniciar Quiz</button>
+</div>
+
+<script>
+    const questions = [
+        { question: "Cyberbullying é menos prejudicial que o bullying físico.", answer: false },
+        { question: "A Declaração Universal dos Direitos Humanos foi criada pela ONU em 1948.", answer: true },
+        { question: "Assistir a uma pessoa ser intimidada sem fazer nada é uma forma de incentivar o bullying.", answer: true },
+        { question: "Todos os seres humanos nascem com os mesmos direitos e liberdades, independente de sua origem.", answer: true },
+        { question: "O racismo é um crime em muitos países.", answer: true },
+        { question: "Estereótipos raciais não são prejudiciais.", answer: false },
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        if (currentQuestion < questions.length) {
+            document.getElementById('question').innerText = questions[currentQuestion].question;
+            document.getElementById('result').innerText = "";
+        } else {
+            document.getElementById('question').innerText = `Você terminou o quiz! Pontuação final: ${score}/${questions.length}`;
+            document.getElementById('restart').style.display = 'block';
+            document.querySelectorAll('.btn').forEach(button => button.style.display = 'none');
+        }
+    }
+
+    function answer(isTrue) {
+        if (isTrue === questions[currentQuestion].answer) {
+            score++;
+            document.getElementById('result').innerText = "Correto!";
+        } else {
+            document.getElementById('result').innerText = "Incorreto!";
+        }
+        currentQuestion++;
+        setTimeout(loadQuestion, 1000);
+    }
+
+    function restartQuiz() {
+        currentQuestion = 0;
+        score = 0;
+        document.getElementById('restart').style.display = 'none';
+        document.querySelectorAll('.btn').forEach(button => button.style.display = 'inline-block');
+        loadQuestion();
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
